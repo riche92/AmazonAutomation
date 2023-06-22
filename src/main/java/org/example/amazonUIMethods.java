@@ -1,21 +1,21 @@
 package org.example;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.io.FileUtils;
+import org.checkerframework.checker.units.qual.C;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class amazonMethods {
+public class amazonUIMethods {
 
     WebDriver driver;
    // WebDriver fireDriver;
@@ -25,19 +25,23 @@ public class amazonMethods {
     public void setUp(){
         System.setProperty("webdriver.chrome.driver", "/Users/wild_/OneDrive/Documents/chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "/Users/wild_/OneDrive/Documents/geckodriver.exe");
-        driver = new ChromeDriver();
        // fireDriver = new FirefoxDriver();
+        driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         timer = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
+
+    @Parameters({"URL"})
     @BeforeTest
-    public void amazonSite(){
-        driver.get("https://www.amazon.com/ref=nav_logo");
+    public void amazonSite(String urlname){
+        driver.get(urlname);
+
     }
 
     @Test
     public void search(){
+        timer.until(ExpectedConditions.visibilityOfElementLocated(By.id("twotabsearchtextbox")));
         driver.findElement(By.xpath("//*[@id='twotabsearchtextbox']")).sendKeys("Gift Card");
         driver.findElement(By.id("nav-search-submit-button")).click();
     }
@@ -47,6 +51,11 @@ public class amazonMethods {
         Actions am = new Actions(driver);
         WebElement move = driver.findElement(By.id("nav-link-accountList"));
         am.moveToElement(move).contextClick().build().perform();
+    }
+    @Test
+    public void navigationShopTabs(){
+
+
     }
 
     @AfterTest
