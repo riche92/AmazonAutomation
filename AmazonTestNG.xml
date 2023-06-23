@@ -1,13 +1,13 @@
 <suite name = "Amazon Automation">
+    <listeners>
+        <listener class-name = "org.example.AmazonUIListener"/>
+    </listeners>
     <parameter name="URL" value="https://www.amazon.com/ref=nav_logo"/>
+    <parameter name = "Screenshot" value =""/>
     <test name = "UI Homepage">
 
         <classes>
             <class name = "org.example.amazonUIMethods"/>
-        </classes>
-    </test>
-    <test name = "Backend Handling">
-        <classes>
             <class name = "org.example.amazonBackend"/>
         </classes>
     </test>

@@ -1,7 +1,6 @@
 package org.example;
 
-import org.apache.commons.io.FileUtils;
-import org.checkerframework.checker.units.qual.C;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -9,17 +8,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 
-import java.io.File;
-import java.io.IOException;
 import java.time.Duration;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class amazonUIMethods {
 
-    WebDriver driver;
+   public static WebDriver driver;
    // WebDriver fireDriver;
-    WebDriverWait timer;
+    public static WebDriverWait timer;
 
     @BeforeSuite
     public void setUp(){
