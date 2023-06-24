@@ -9,53 +9,70 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 
 import java.time.Duration;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class amazonUIMethods {
+public class amazonUIMethods extends amazonSetUp {
 
-   public static WebDriver driver;
-   // WebDriver fireDriver;
-    public static WebDriverWait timer;
 
-    @BeforeSuite
-    public void setUp(){
-        System.setProperty("webdriver.chrome.driver", "/Users/wild_/OneDrive/Documents/chromedriver.exe");
-        //System.setProperty("webdriver.chrome.driver", "/Users/wild_/OneDrive/Documents/geckodriver.exe");
-       // fireDriver = new FirefoxDriver();
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        timer = new WebDriverWait(driver, Duration.ofSeconds(5));
-    }
+    /*
+        @Parameters({"URL"})
+        @BeforeTest
+        public void amazonSite(String urlname){
+            driver.get(urlname);
 
-    @Parameters({"URL"})
+
+        }
+    */
     @BeforeTest
-    public void amazonSite(String urlname){
-        driver.get(urlname);
-
+    public void urlsite() {
+        driver.get("https://www.amazon.com/");
     }
 
     @Test
-    public void search(){
+    public void search() {
         timer.until(ExpectedConditions.visibilityOfElementLocated(By.id("twotabsearchtextbox")));
         driver.findElement(By.xpath("//*[@id='twotabsearchtextbox']")).sendKeys("Gift Card");
         driver.findElement(By.id("nav-search-submit-button")).click();
     }
 
     @Test
-    public void accountMenu(){
+    public void accountMenu() {
         Actions am = new Actions(driver);
         WebElement move = driver.findElement(By.id("nav-link-accountList"));
         am.moveToElement(move).contextClick().build().perform();
     }
+
     @Test
-    public void navigationShopTabs(){
+    public void navigationShopTabs() {
+        WebElement shopTabs = driver.findElement(By.xpath("//*[@id='nav-main']/div[2]"));
+        shopTabs.findElements(By.tagName("a")).size();
+        try {
+            for (int i = 1; i < shopTabs.findElements(By.tagName("a")).size(); i++) {
+                String ctrlclick = Keys.chord(Keys.CONTROL, Keys.ENTER);
+                driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+                shopTabs.findElements(By.tagName("a")).get(i).sendKeys(ctrlclick);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            }
 
 
+        Set<String>  windows = driver.getWindowHandles();
+        Iterator<String> it = windows.iterator();
+        while (it.hasNext()) {
+            driver.switchTo().window(it.next());
+            System.out.println(driver.getTitle());
+
+        }
     }
 
-    @AfterTest
-    public void endofAutomation(){
-        driver.quit();
-    }
+        @AfterTest
+        public void endofAutomation() {
+            driver.quit();
+        }
+
 }
+
